@@ -74,8 +74,10 @@ function stopPlacing(event, cell) {
   y.value = -1;
   const won = store.checkForWin();
   if (won) {
-    alert('You won!');
-    store.seedTestBoard();
+    setTimeout(() => {
+      alert('You won!');
+      store.seedTestBoard();
+    }, 100);
   }
 }
 
@@ -127,18 +129,6 @@ function updateCell() {
   //   return;
   // }
 
-  const sameAsStarting = cell.x === startingCell.value.x && cell.y === startingCell.value.y;
-  const sameColorEnds = game.value.board.flat()
-    .filter((c) => c.end && c.wire?.color === props.selectedColor);
-  const otherEnd = sameColorEnds
-    .filter((c) => c.x !== startingCell.value.x && c.y !== startingCell.value.y)?.[0];
-  const equalsOtherEnd = otherEnd?.x === cell.x && otherEnd?.y === cell.y;
-  if ((cell.displayColor && !sameAsStarting && cellsPlaced.value.length > 0 && !equalsOtherEnd)
-    || (sameAsStarting && cellsPlaced.value.length > 0)) {
-    stopPlacing(null, cell);
-    return;
-  }
-
   const previousCell = cellsPlaced.value[cellsPlaced.value.length - 1] ?? startingCell.value;
   if (previousCell) {
     // set wire direction
@@ -167,6 +157,18 @@ function updateCell() {
       stopPlacing(null, cell);
       return;
     }
+  }
+
+  const sameAsStarting = cell.x === startingCell.value.x && cell.y === startingCell.value.y;
+  const sameColorEnds = game.value.board.flat()
+    .filter((c) => c.end && c.wire?.color === props.selectedColor);
+  const otherEnd = sameColorEnds
+    .filter((c) => c.x !== startingCell.value.x && c.y !== startingCell.value.y)?.[0];
+  const equalsOtherEnd = otherEnd?.x === cell.x && otherEnd?.y === cell.y;
+  if ((cell.displayColor && !sameAsStarting && cellsPlaced.value.length > 0 && !equalsOtherEnd)
+    || (sameAsStarting && cellsPlaced.value.length > 0)) {
+    stopPlacing(null, cell);
+    return;
   }
 
   if (cell.displayColor && !equalsOtherEnd) return;

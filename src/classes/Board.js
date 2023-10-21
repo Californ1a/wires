@@ -6,6 +6,7 @@ export default class Board {
     this.board = board;
     this.boardSize = boardSize;
     this.wireCount = wireCount;
+    this.index = 0;
     this.wireColors = [];
     this.wires = new Map();
     this.init();
@@ -61,19 +62,9 @@ export default class Board {
   }
 
   seedTestBoard() {
-    const str = this.toString();
-    let testBoard = testBoards[testBoards.length - 1];
-    let testStr;
-
-    do {
-      testBoard = testBoards[Math.floor(Math.random() * testBoards.length)];
-      testStr = testBoard.flat().map((cell) => cell?.color ?? cell);
-    } while (str === testStr);
-
-    // find unique colors
-    // const colors = [...new Set(testBoard.flat())];
-
-    this.setBoard(testBoard);
+    // mod on testBoards.length to loop through testBoards
+    this.setBoard(testBoards[this.index]);
+    this.index = (this.index + 1) % testBoards.length;
   }
 
   getCellNeighbors(cell) {
@@ -102,9 +93,5 @@ export default class Board {
       if (cell.displayColor !== cell.wire.color) return false;
     }
     return true;
-  }
-
-  toString() {
-    return this.board.flat().map((cell) => cell.toString()).join('\n');
   }
 }
