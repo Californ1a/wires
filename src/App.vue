@@ -1,4 +1,5 @@
 <template>
+  <GithubCorner />
   <main>
     <GameBoard :selectedColor="color" @changeColor="setColor" />
     <!-- <div class="buttons">
@@ -15,6 +16,7 @@ import { ref, onMounted } from 'vue';
 import useStore from '@/store';
 import { storeToRefs } from 'pinia';
 import GameBoard from '@/components/GameBoard.vue';
+import GithubCorner from '@/components/GithubCorner.vue';
 
 const store = useStore();
 const { game } = storeToRefs(store);
