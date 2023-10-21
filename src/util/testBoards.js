@@ -1,0 +1,32 @@
+export default [
+  [
+    ['yellow', 'yellow', 'yellow', 'yellow', { color: 'yellow', end: true }, { color: 'red', end: true }, { color: 'blue', end: true }],
+    ['yellow', { color: 'orange', end: true }, 'orange', { color: 'red', end: true }, 'red', 'red', 'blue'],
+    ['yellow', { color: 'purple', end: true }, 'orange', 'orange', 'orange', { color: 'orange', end: false }, 'blue'],
+    ['yellow', 'purple', { color: 'pink', end: true }, { color: 'green', end: true }, 'green', { color: 'orange', end: true }, 'blue'],
+    ['yellow', 'purple', 'pink', 'pink', 'green', { color: 'blue', end: true }, 'blue'],
+    ['yellow', 'purple', 'purple', 'pink', 'green', 'green', 'green'],
+    ['yellow', { color: 'yellow', end: true }, { color: 'purple', end: true }, 'pink', 'pink', { color: 'pink', end: true }, { color: 'green', end: true }],
+  ],
+  [
+    [{ color: 'lightblue', end: true }, 'lightblue', 'lightblue', { color: 'blue', end: true }, 'blue', { color: 'pink', end: true }, 'pink', { color: 'green', end: true }, 'green'],
+    ['yellow', { color: 'yellow', end: true }, 'lightblue', 'lightblue', 'blue', 'blue', 'pink', { color: 'orange', end: true }, 'green'],
+    ['yellow', { color: 'red', end: true }, 'red', 'lightblue', 'lightblue', 'blue', 'pink', 'orange', 'green'],
+    ['yellow', { color: 'purple', end: true }, 'red', { color: 'grey', end: true }, 'lightblue', { color: 'blue', end: true }, 'pink', 'orange', 'green'],
+    ['yellow', 'purple', 'red', 'grey', 'lightblue', 'lightblue', 'pink', 'orange', 'green'],
+    ['yellow', 'purple', 'red', 'grey', 'grey', { color: 'lightblue', end: true }, 'pink', 'orange', 'green'],
+    ['yellow', 'purple', 'red', 'red', 'grey', 'grey', { color: 'pink', end: true }, 'orange', 'green'],
+    ['yellow', 'purple', { color: 'purple', end: true }, 'red', 'red', 'grey', 'grey', { color: 'orange', end: true }, 'green'],
+    ['yellow', 'yellow', 'yellow', { color: 'yellow', end: true }, 'red', { color: 'red', end: true }, 'grey', { color: 'grey', end: true }, { color: 'green', end: true }],
+  ],
+  [
+    [{ color: 'yellow', end: true }, 'red', 'red', { color: 'red', end: true }, 'lightblue', 'lightblue', 'lightblue', { color: 'lightblue', end: true }],
+    ['yellow', 'red', { color: 'pink', end: true }, 'lightblue', 'lightblue', 'orange', 'orange', 'orange'],
+    ['yellow', 'red', 'pink', 'lightblue', 'orange', 'orange', { color: 'purple', end: true }, { color: 'orange', end: true }],
+    ['yellow', 'red', 'pink', 'lightblue', 'orange', { color: 'grey', end: true }, 'purple', { color: 'green', end: true }],
+    ['yellow', 'red', 'pink', 'lightblue', 'orange', 'grey', 'purple', 'green'],
+    ['yellow', { color: 'red', end: true }, 'pink', 'lightblue', { color: 'orange', end: true }, 'grey', 'purple', 'green'],
+    ['yellow', 'pink', 'pink', 'lightblue', { color: 'lightblue', end: true }, { color: 'grey', end: true }, { color: 'purple', end: true }, 'green'],
+    [{ color: 'yellow', end: true }, { color: 'pink', end: true }, { color: 'green', end: true }, 'green', 'green', 'green', 'green', 'green'],
+  ],
+];
