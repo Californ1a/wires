@@ -9,6 +9,7 @@ export default function winToast() {
   const store = useStore();
   setTimeout(() => {
     if (isDev) {
+      // eslint-disable-next-line no-alert
       alert('You win!');
       store.seedTestBoard();
       return;
