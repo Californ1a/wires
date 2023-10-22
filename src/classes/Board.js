@@ -28,6 +28,7 @@ export default class Board {
     this.wireCount = this.wireColors.length;
     this.boardSize = board.length;
     this.board = [];
+    this.won = false;
     this.init();
     for (let i = 0; i < this.boardSize; i += 1) {
       for (let j = 0; j < this.boardSize; j += 1) {

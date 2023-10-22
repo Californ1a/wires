@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import useStore from '@/store';
 import { storeToRefs } from 'pinia';
 import GameBoard from '@/components/GameBoard.vue';
@@ -29,6 +29,10 @@ const { game } = storeToRefs(store);
 const colors = ref([]);
 const color = ref('');
 const devMode = ref(false);
+
+watch(devMode, () => {
+  store.setDev(devMode.value);
+});
 
 function setColor(event) {
   color.value = event?.target?.value ?? event;

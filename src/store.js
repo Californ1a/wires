@@ -4,6 +4,11 @@ import Board from '@/classes/Board';
 
 export default defineStore('main', () => {
   const game = ref(new Board());
+  const dev = ref(false);
+
+  function setDev(isDev) {
+    dev.value = isDev;
+  }
 
   function toggleCell(theCell) {
     if (theCell.end) return;
@@ -73,6 +78,7 @@ export default defineStore('main', () => {
 
   return {
     game,
+    dev,
     toggleCell,
     seedTestBoard,
     getColorList,
@@ -80,5 +86,6 @@ export default defineStore('main', () => {
     getCellFromCoords,
     checkForWin,
     setDisplayColor,
+    setDev,
   };
 });
