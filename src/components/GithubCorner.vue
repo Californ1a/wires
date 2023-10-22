@@ -1,6 +1,6 @@
 <template>
   <a
-    href="https://github.com/Californ1a/chargeup"
+    href="https://github.com/Californ1a/wires"
     class="github-corner"
     aria-label="View source on GitHub"
     target="_blank"
