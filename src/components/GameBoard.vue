@@ -5,8 +5,9 @@
         <GameCell
           :cell="cell"
           :selectedColor="selectedColor"
-          @mousedown="startPlacing($event, cell)"
-          @mouseup="stopPlacing($event, cell)" />
+          @mousedown="(game.won) ? null : (devMode) ? null : startPlacing($event, cell)"
+          @mouseup="(game.won) ? null : (devMode) ? null : stopPlacing($event, cell)"
+          :devMode="devMode" />
       </div>
     </div>
   </div>
@@ -23,6 +24,7 @@ import {
 import GameCell from '@/components/GameCell.vue';
 import { storeToRefs } from 'pinia';
 import useStore from '@/store';
+import winToast from '@/util/winToast';
 
 const store = useStore();
 const { game } = storeToRefs(store);
@@ -34,6 +36,10 @@ const props = defineProps({
   selectedColor: {
     type: String,
     required: true,
+  },
+  devMode: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -74,10 +80,8 @@ function stopPlacing(event, cell) {
   y.value = -1;
   const won = store.checkForWin();
   if (won) {
-    setTimeout(() => {
-      alert('You won!');
-      store.seedTestBoard();
-    }, 100);
+    winToast();
+    game.value.won = true;
   }
 }
 

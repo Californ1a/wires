@@ -24,6 +24,31 @@ export default defineStore('main', () => {
     return game.value.wireColors;
   }
 
+  function setDisplayColor(theCell, color) {
+    if (theCell.end) return;
+    for (const row of game.value.board) {
+      for (const cell of row) {
+        // eslint-disable-next-line no-continue
+        if (cell.end) continue;
+        if (cell.x === theCell.x && cell.y === theCell.y) {
+          cell.wireDirection = {
+            up: false,
+            down: false,
+            left: false,
+            right: false,
+          };
+          if (cell.displayColor) {
+            cell.displayColor = null;
+            cell.visible = false;
+          } else {
+            cell.displayColor = color;
+            cell.visible = true;
+          }
+        }
+      }
+    }
+  }
+
   function clearDisplayColor(theCell) {
     if (!theCell.displayColor) return;
     const color = theCell.displayColor;
@@ -54,5 +79,6 @@ export default defineStore('main', () => {
     clearDisplayColor,
     getCellFromCoords,
     checkForWin,
+    setDisplayColor,
   };
 });

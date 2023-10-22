@@ -1,14 +1,18 @@
 <template>
   <GithubCorner />
   <main>
-    <GameBoard :selectedColor="color" @changeColor="setColor" />
-    <!-- <div class="buttons">
+    <GameBoard :selectedColor="color" @changeColor="setColor" :devMode="devMode" />
+    <div class="buttons" v-if="devMode">
       <div v-for="c in colors" :key="c">
         <input type="radio" :id="c" :value="c" v-model="color" @change="setColor" />
         <label :for="c"><span :class="c" /></label>
       </div>
-    </div> -->
+    </div>
   </main>
+  <div class="dev-mode" v-if="isDev">
+    <input type="checkbox" id="dev-mode" v-model="devMode" />
+    <label for="dev-mode">Dev Mode</label>
+  </div>
 </template>
 
 <script setup>
@@ -17,12 +21,14 @@ import useStore from '@/store';
 import { storeToRefs } from 'pinia';
 import GameBoard from '@/components/GameBoard.vue';
 import GithubCorner from '@/components/GithubCorner.vue';
+import { isDev } from '@/util/env';
 
 const store = useStore();
 const { game } = storeToRefs(store);
 
 const colors = ref([]);
 const color = ref('');
+const devMode = ref(false);
 
 function setColor(event) {
   color.value = event?.target?.value ?? event;
@@ -56,91 +62,106 @@ main {
   margin-top: 2rem;
 }
 
-input[type="radio"] {
+.buttons input[type="radio"] {
   display: none;
 }
 
-input[type="radio"]:checked+label span {
+.buttons input[type="radio"]:checked+label span {
   transform: scale(1.5);
   border: 2px solid #888;
 }
 
-label:hover span {
+.buttons label:hover span {
   transform: scale(1.5);
 }
 
-label span {
+.buttons label span {
   display: block;
   width: 100%;
   height: 100%;
   transition: transform .2s ease-in-out;
 }
 
-label span.red {
+.buttons label span.red {
   background: red;
 }
 
-label span.orange {
+.buttons label span.orange {
   background: orange;
 }
 
-label span.yellow {
+.buttons label span.yellow {
   background: yellow;
 }
 
-label span.olive {
+.buttons label span.olive {
   background: olive;
 }
 
-label span.green {
+.buttons label span.green {
   background: green;
 }
 
-label span.teal {
+.buttons label span.teal {
   background: teal;
 }
 
-label span.blue {
+.buttons label span.blue {
   background: blue;
 }
 
-label span.violet {
+.buttons label span.violet {
   background: violet;
 }
 
-label span.purple {
+.buttons label span.purple {
   background: purple;
 }
 
-label span.pink {
+.buttons label span.pink {
   background: pink;
 }
 
-label span.brown {
+.buttons label span.brown {
   background: brown;
 }
 
-label span.grey {
+.buttons label span.grey {
   background: grey;
 }
 
-label span.black {
+.buttons label span.black {
   background: black;
 }
 
-label span.white {
+.buttons label span.white {
   background: white;
 }
 
-label span.lightblue {
+.buttons label span.lightblue {
   background: lightblue;
 }
 
-label {
+.buttons label {
   display: inline-block;
   width: 25px;
   height: 25px;
   margin-right: 10px;
   cursor: pointer;
+}
+
+.dev-mode {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
+  background: #333;
+  color: #eee;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 </style>

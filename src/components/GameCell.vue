@@ -6,7 +6,7 @@
       'cell-invisible': !cell.visible && !cell.wire?.end,
       'cell-end': cell.end,
     }"
-    @click="store.clearDisplayColor(cell)">
+    @click="(game.won) ? null : (devMode) ? setDisplayColor(cell, selectedColor) : store.clearDisplayColor(cell)">
     <span v-if="cell.end">⭕</span>
     <span v-else-if="cell.wireDirection.up && cell.wireDirection.down">↕</span>
     <span v-else-if="cell.wireDirection.left && cell.wireDirection.right">↔</span>
@@ -37,8 +37,11 @@
 import { computed } from 'vue';
 import useStore from '@/store';
 import CornerArrow from '@/components/CornerArrow.vue';
+import winToast from '@/util/winToast';
+import { storeToRefs } from 'pinia';
 
 const store = useStore();
+const { game } = storeToRefs(store);
 
 const props = defineProps({
   cell: {
@@ -49,7 +52,20 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  devMode: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+function setDisplayColor(cell, color) {
+  store.setDisplayColor(cell, color);
+  const won = store.checkForWin();
+  if (won) {
+    winToast();
+    game.value.won = true;
+  }
+}
 
 const cellColor = computed(() => ((props.cell.visible && props.cell.displayColor) ? props.cell.displayColor : '#eee'));
 const hueRotateMap = {
