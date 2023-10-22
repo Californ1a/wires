@@ -6,7 +6,8 @@
       'cell-invisible': !cell.visible && !cell.wire?.end,
       'cell-end': cell.end,
     }"
-    @click="(game.won) ? null : (devMode) ? setDisplayColor(cell, selectedColor) : store.clearDisplayColor(cell)">
+    @click="(game.won) ? null
+      : (devMode) ? setDisplayColor(cell, selectedColor) : store.clearDisplayColor(cell)">
     <span v-if="cell.end">⭕</span>
     <span v-else-if="cell.wireDirection.up && cell.wireDirection.down">↕</span>
     <span v-else-if="cell.wireDirection.left && cell.wireDirection.right">↔</span>

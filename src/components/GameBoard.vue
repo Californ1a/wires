@@ -5,8 +5,10 @@
         <GameCell
           :cell="cell"
           :selectedColor="selectedColor"
-          @mousedown="(game.won) ? null : (devMode) ? null : startPlacing($event, cell)"
-          @mouseup="(game.won) ? null : (devMode) ? null : stopPlacing($event, cell)"
+          @mousedown="(game.won) ? null
+            : (devMode) ? null : startPlacing($event, cell)"
+          @mouseup="(game.won) ? null
+            : (devMode) ? null : stopPlacing($event, cell)"
           :devMode="devMode" />
       </div>
     </div>

@@ -11,7 +11,7 @@
   </main>
   <div class="dev-mode" v-if="isDev">
     <input type="checkbox" id="dev-mode" v-model="devMode" />
-    <label for="dev-mode">Dev Mode</label>
+    <label for="dev-mode">Old Version</label>
   </div>
 </template>
 
