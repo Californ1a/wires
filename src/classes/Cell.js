@@ -5,6 +5,7 @@ export default class Cell {
     this.x = x;
     this.y = y;
     this.wire = null;
+    this.blocked = false;
     this.visible = false;
     this.end = false;
     this.isPowered = false;

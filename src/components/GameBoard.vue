@@ -50,7 +50,7 @@ const emit = defineEmits(['changeColor']);
 const x = ref(0);
 const y = ref(0);
 const startingCell = ref(null);
-const boardSize = computed(() => `repeat(${game.value.boardSize}, 1fr)`);
+const boardSize = computed(() => `${game.value.boardSize}`);
 
 function stopPlacing(event, cell) {
   // eslint-disable-next-line no-use-before-define
@@ -190,14 +190,14 @@ function updateCell() {
 watch([x, y], updateCell);
 
 onBeforeMount(async () => {
-  await store.seedTestBoard();
+  await store.seedRandomBoard();
 });
 </script>
 
 <style scoped>
 .board {
   display: grid;
-  grid-template-rows: v-bind('boardSize');
+  grid-template-rows: repeat(v-bind('boardSize'), calc(100% / v-bind('boardSize')));
   width: 100%;
   height: 100%;
   max-width: 500px;
@@ -207,6 +207,6 @@ onBeforeMount(async () => {
 
 .row {
   display: grid;
-  grid-template-columns: v-bind('boardSize');
+  grid-template-columns: repeat(v-bind('boardSize'), calc(100% / v-bind('boardSize')));
 }
 </style>

@@ -7,10 +7,11 @@ const toast = useToast();
 export default function winToast() {
   const store = useStore();
   setTimeout(() => {
+    const boardFn = store.seedRandomBoard;
     if (store.dev) {
       // eslint-disable-next-line no-alert
       alert('You win!');
-      store.seedTestBoard();
+      boardFn();
       return;
     }
     toast.update('win-toast', {
@@ -23,7 +24,7 @@ export default function winToast() {
         timeout: false,
         closeButton: false,
         draggable: false,
-        onClose: () => store.seedTestBoard(),
+        onClose: () => boardFn(),
       },
     }, true);
   });

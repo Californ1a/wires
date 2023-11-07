@@ -2,9 +2,10 @@
   <div
     :class="{
       cell: true,
-      'cell-visible': cell.visible && !cell.wire?.end,
-      'cell-invisible': !cell.visible && !cell.wire?.end,
+      'cell-visible': cell.visible && !cell.wire?.end && !cell.blocked,
+      'cell-invisible': !cell.visible && !cell.wire?.end && !cell.blocked,
       'cell-end': cell.end,
+      'cell-blocked': cell.blocked,
     }"
     @click="(game.won) ? null
       : (devMode) ? setDisplayColor(cell, selectedColor) : store.clearDisplayColor(cell)">
@@ -103,6 +104,10 @@ const hueRotate = computed(() => `hue-rotate(${hueRotateMap[props.cell.wire?.col
 
 .cell-invisible {
   background: #333;
+}
+
+.cell-blocked {
+  background: #eee;
 }
 
 .cell-invisible:hover {

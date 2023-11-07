@@ -25,6 +25,10 @@ export default defineStore('main', () => {
     game.value.seedTestBoard();
   }
 
+  function seedRandomBoard(size, wireCount) {
+    game.value.seedRandomBoard(size, wireCount);
+  }
+
   function getColorList() {
     return game.value.wireColors;
   }
@@ -81,6 +85,7 @@ export default defineStore('main', () => {
     dev,
     toggleCell,
     seedTestBoard,
+    seedRandomBoard,
     getColorList,
     clearDisplayColor,
     getCellFromCoords,

@@ -1,5 +1,11 @@
 import Cell from '@/classes/Cell';
 import testBoards from '@/util/testBoards';
+import {
+  generateWires,
+  applyWiresToBoard,
+  createBoard,
+  formatBoard,
+} from '../util/boardGeneration';
 
 export default class Board {
   constructor(board = [], boardSize = 7, wireCount = 7) {
@@ -22,9 +28,9 @@ export default class Board {
   }
 
   setBoard(board) {
-    if (board.flat().includes(null)) throw new Error('board must not contain null values');
-    this.wireColors = [...new Set(board.flat().map((cell) => cell.color)
-      .filter((color) => color !== undefined))];
+    // if (board.flat().includes(null)) throw new Error('board must not contain null values');
+    this.wireColors = [...new Set(board.flat().map((cell) => cell?.color)
+      .filter((color) => color !== undefined && color !== null))];
     this.wireCount = this.wireColors.length;
     this.boardSize = board.length;
     this.board = [];
@@ -57,6 +63,9 @@ export default class Board {
               this.board[i][j].displayColor = board[i][j].color;
             }
           }
+        } else if (board[i][j] === null) {
+          this.board[i][j].blocked = true;
+          this.board[i][j].visible = true;
         }
       }
     }
@@ -66,6 +75,23 @@ export default class Board {
     // mod on testBoards.length to loop through testBoards
     this.setBoard(testBoards[this.index]);
     this.index = (this.index + 1) % testBoards.length;
+  }
+
+  seedRandomBoard(size = 7, wireCount = size) {
+    const colors = ['y', 'r', 'b', 'o', 'v', 'p', 'g', 'lb', 'gr'];
+    const randomColors = colors.sort(() => Math.random() - 0.5).slice(0, wireCount);
+    const board = createBoard(size); // Array(size).fill().map(() => Array(size).fill(null));
+
+    const timeout = setTimeout(() => {
+      throw new Error('seedRandomBoard is not implemented');
+    }, 5000);
+
+    const generatedWires = generateWires(board, randomColors);
+    const generatedBoard = applyWiresToBoard(board, generatedWires);
+    // console.log('generatedBoard', generatedBoard);
+    const formattedBoard = formatBoard(generatedBoard);
+    clearTimeout(timeout);
+    this.setBoard(formattedBoard);
   }
 
   getCellNeighbors(cell) {
@@ -91,6 +117,8 @@ export default class Board {
     const visibleCells = flatBoard.filter((cell) => cell.visible);
     if (visibleCells.length !== flatBoard.length) return false;
     for (const cell of flatBoard) {
+      // eslint-disable-next-line no-continue
+      if (cell.blocked) continue;
       if (cell.displayColor !== cell.wire.color) return false;
     }
     return true;
