@@ -8,6 +8,23 @@
         <label :for="c"><span :class="c" /></label>
       </div>
     </div>
+    <div class="controls">
+      <div class="radio-btns">
+        <div class="radio">
+          <input type="radio" id="easy" value="easy" v-model="store.difficulty" @click="store.setDifficulty" />
+          <label for="easy">Easy</label>
+        </div>
+        <div class="radio">
+          <input type="radio" id="medium" value="medium" v-model="store.difficulty" @click="store.setDifficulty" />
+          <label for="medium">Medium</label>
+        </div>
+        <div class="radio">
+          <input type="radio" id="hard" value="hard" v-model="store.difficulty" @click="store.setDifficulty" />
+          <label for="hard">Hard</label>
+        </div>
+      </div>
+      <button type="button" @click="store.seedRandomBoard()">New Game</button>
+    </div>
   </main>
   <div class="dev-mode" v-if="isDev">
     <input type="checkbox" id="dev-mode" v-model="devMode" />
@@ -167,5 +184,22 @@ main {
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.controls .radio-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 }
 </style>

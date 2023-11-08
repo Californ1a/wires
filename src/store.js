@@ -5,6 +5,7 @@ import Board from '@/classes/Board';
 export default defineStore('main', () => {
   const game = ref(new Board());
   const dev = ref(false);
+  const difficulty = ref('easy');
 
   function setDev(isDev) {
     dev.value = isDev;
@@ -26,7 +27,10 @@ export default defineStore('main', () => {
   }
 
   function seedRandomBoard(size, wireCount) {
-    game.value.seedRandomBoard(size, wireCount);
+    const d = difficulty.value;
+    // eslint-disable-next-line no-nested-ternary
+    const boardSize = size ?? d === 'easy' ? 7 : d === 'medium' ? 8 : 9;
+    game.value.seedRandomBoard(boardSize, wireCount);
   }
 
   function getColorList() {
@@ -77,12 +81,17 @@ export default defineStore('main', () => {
     }
   }
 
+  function setDifficulty(diff) {
+    console.log('setDifficulty', diff);
+  }
+
   const getCellFromCoords = (x, y) => game.value.board[x]?.[y];
   const checkForWin = () => game.value.checkForWin();
 
   return {
     game,
     dev,
+    difficulty,
     toggleCell,
     seedTestBoard,
     seedRandomBoard,
@@ -92,5 +101,6 @@ export default defineStore('main', () => {
     checkForWin,
     setDisplayColor,
     setDev,
+    setDifficulty,
   };
 });
