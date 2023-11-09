@@ -1,15 +1,11 @@
 <template>
-  <div class="board" ref="boardRef">
+  <div v-if="!loading" class="board" ref="boardRef">
     <div v-for="(row, i) in game.board" :key="i" class="row">
       <div v-for="(cell, j) in row" :key="j">
         <GameCell
           :cell="cell"
-          :selectedColor="selectedColor"
-          @mousedown="(game.won) ? null
-            : (devMode) ? null : startPlacing($event, cell)"
-          @mouseup="(game.won) ? null
-            : (devMode) ? null : stopPlacing($event, cell)"
-          :devMode="devMode" />
+          @mousedown="(game.won) ? null : startPlacing($event, cell)"
+          @mouseup="(game.won) ? null : stopPlacing($event, cell)" />
       </div>
     </div>
   </div>
@@ -19,7 +15,7 @@
 <script setup>
 import {
   ref,
-  onBeforeMount,
+  onMounted,
   computed,
   watch,
 } from 'vue';
@@ -33,19 +29,8 @@ const { game } = storeToRefs(store);
 
 const cellsPlaced = ref([]);
 const boardRef = ref(null);
-
-const props = defineProps({
-  selectedColor: {
-    type: String,
-    required: true,
-  },
-  devMode: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const emit = defineEmits(['changeColor']);
+const currentColor = ref(null);
+const loading = ref(true);
 
 const x = ref(0);
 const y = ref(0);
@@ -56,7 +41,7 @@ function stopPlacing(event, cell) {
   // eslint-disable-next-line no-use-before-define
   window.removeEventListener('mousemove', update);
   const sameAsStarting = cell.x === startingCell.value?.x && cell.y === startingCell.value?.y;
-  if (!cell.end || cell.wire?.color !== props.selectedColor || sameAsStarting) {
+  if (!cell.end || cell.wire?.color !== currentColor.value || sameAsStarting) {
     for (const c of cellsPlaced.value) {
       // eslint-disable-next-line no-continue
       c.wireDirection = {
@@ -113,7 +98,8 @@ function update(event) {
 function startPlacing(event, cell) {
   if (!cell.end) return;
   startingCell.value = cell;
-  emit('changeColor', cell.wire.color);
+  // emit('changeColor', cell.wire.color);
+  currentColor.value = cell.wire?.color;
   window.addEventListener('mousemove', update);
 }
 
@@ -121,7 +107,7 @@ function updateCell() {
   const cell = store.getCellFromCoords(x.value, y.value);
   if (!cell) return;
   // if (cell.end) return;
-  // if (cell.displayColor && cell.displayColor !== props.selectedColor) return;
+  // if (cell.displayColor && cell.displayColor !== currentColor.value) return;
 
   // const cellAlreadyPlaced = cellsPlaced.value.some((c) => c.x === cell.x && c.y === cell.y);
   // console.log(cellsPlaced.value);
@@ -167,7 +153,7 @@ function updateCell() {
 
   const sameAsStarting = cell.x === startingCell.value.x && cell.y === startingCell.value.y;
   const sameColorEnds = game.value.board.flat()
-    .filter((c) => c.end && c.wire?.color === props.selectedColor);
+    .filter((c) => c.end && c.wire?.color === currentColor.value);
   const otherEnd = sameColorEnds
     .filter((c) => c.x !== startingCell.value.x && c.y !== startingCell.value.y)?.[0];
   const equalsOtherEnd = otherEnd?.x === cell.x && otherEnd?.y === cell.y;
@@ -180,7 +166,7 @@ function updateCell() {
   if (cell.displayColor && !equalsOtherEnd) return;
 
   cellsPlaced.value.push(cell);
-  cell.displayColor = props.selectedColor;
+  cell.displayColor = currentColor.value;
   cell.visible = true;
   if (equalsOtherEnd) {
     stopPlacing(null, cell);
@@ -189,8 +175,10 @@ function updateCell() {
 
 watch([x, y], updateCell);
 
-onBeforeMount(async () => {
+onMounted(async () => {
+  loading.value = true;
   await store.seedRandomBoard();
+  loading.value = false;
 });
 </script>
 
