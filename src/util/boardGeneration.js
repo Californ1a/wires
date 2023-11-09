@@ -247,7 +247,9 @@ function generateShortWire(board, color, attempts = 0) {
   // console.log('minDistance', minDistance);
   const path = generateAStarPath(board, spots[0], spots[1]);
   if (!path || path.length < minDistance) {
-    // console.log(`No path exists between [${spots[0].x}][${spots[0].y}] and [${spots[1].x}][${spots[1].y}] `);
+    // const spot1 = `[${spots[0].x}][${spots[0].y}]`;
+    // const spot2 = `[${spots[1].x}][${spots[1].y}]`;
+    // console.log(`No path exists between ${spot1} and ${spot2}`);
     if (attempts < 100) {
       return generateShortWire(board, color, attempts + 1);
     }
@@ -286,7 +288,8 @@ function generateLongWire(board, color) {
   const wire = [];
   for (let i = 0; i < longestPath.length; i += 1) {
     longestPath[i].color = color;
-    board.flat().filter((cell) => cell.x === longestPath[i].x && cell.y === longestPath[i].y)[0].color = color;
+    const { x, y } = longestPath[i];
+    board.flat().filter((cell) => cell.x === x && cell.y === y)[0].color = color;
     wire.push(longestPath[i]);
   }
   return wire;

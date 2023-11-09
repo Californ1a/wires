@@ -10,28 +10,8 @@
     @click="(game.won) ? null
       : store.clearDisplayColor(cell)">
     <span v-if="cell.end">⭕</span>
-    <span v-else-if="cell.wireDirection.up && cell.wireDirection.down">↕</span>
-    <span v-else-if="cell.wireDirection.left && cell.wireDirection.right">↔</span>
-    <span v-else-if="cell.wireDirection.left && cell.wireDirection.up">
-      <!-- ↰↖ -->
-      <CornerArrow rotate="270deg" />
-    </span>
-    <span v-else-if="cell.wireDirection.left && cell.wireDirection.down">
-      <!-- ↲↙ -->
-      <CornerArrow rotate="180deg" />
-    </span>
-    <span v-else-if="cell.wireDirection.right && cell.wireDirection.up">
-      <!-- ↱↗ -->
-      <CornerArrow />
-    </span>
-    <span v-else-if="cell.wireDirection.right && cell.wireDirection.down">
-      <!-- ↳↘ -->
-      <CornerArrow rotate="90deg" />
-    </span>
-    <span v-else-if="cell.wireDirection.up">⬆</span>
-    <span v-else-if="cell.wireDirection.down">⬇</span>
-    <span v-else-if="cell.wireDirection.left">⬅</span>
-    <span v-else-if="cell.wireDirection.right">➡</span>
+    <CornerArrow v-else-if="cornerArrowRotation" :rotate="cornerArrowRotation" />
+    <span v-else>{{ straightArrow }}</span>
   </div>
 </template>
 
@@ -60,8 +40,30 @@ const hueRotateMap = {
   purple: '300deg',
   orange: '30deg',
   pink: '330deg',
+  lightblue: '190deg',
+  grey: '60deg',
 };
 const hueRotate = computed(() => `hue-rotate(${hueRotateMap[props.cell.wire?.color]})`);
+
+const cornerArrowRotation = computed(() => {
+  const dir = props.cell.wireDirection;
+  if (dir.left && dir.up) return '270deg';
+  if (dir.left && dir.down) return '180deg';
+  if (dir.right && dir.up) return '0deg';
+  if (dir.right && dir.down) return '90deg';
+  return null;
+});
+
+const straightArrow = computed(() => {
+  const dir = props.cell.wireDirection;
+  if (dir.up && dir.down) return '↕';
+  if (dir.left && dir.right) return '↔';
+  if (dir.up) return '⬆';
+  if (dir.down) return '⬇';
+  if (dir.left) return '⬅';
+  if (dir.right) return '➡';
+  return null;
+});
 </script>
 
 <style scoped>
